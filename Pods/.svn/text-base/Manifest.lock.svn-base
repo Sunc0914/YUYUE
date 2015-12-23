@@ -1,0 +1,13 @@
+PODS:
+  - HexColors (2.3.0)
+  - SDCycleScrollView (1.3)
+
+DEPENDENCIES:
+  - HexColors (~> 2.3.0)
+  - SDCycleScrollView (~> 1.3)
+
+SPEC CHECKSUMS:
+  HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
+  SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
+
+COCOAPODS: 0.38.2

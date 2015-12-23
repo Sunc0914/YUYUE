@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/yuti/!svn/ver/406/src/yuti-app/ios/YUYUE/YUYUE
+END
+main.m
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/main.m
+END
+AppDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/yuti/!svn/ver/406/src/yuti-app/ios/YUYUE/YUYUE/AppDelegate.h
+END
+YUYUE-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/YUYUE-Info.plist
+END
+ViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/ViewController.h
+END
+YUYUE-Prefix.pch
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/YUYUE-Prefix.pch
+END
+MainTabBarViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/MainTabBarViewController.h
+END
+AppDelegate.m
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/yuti/!svn/ver/406/src/yuti-app/ios/YUYUE/YUYUE/AppDelegate.m
+END
+LoginVC.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/LoginVC.h
+END
+RootViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/RootViewController.h
+END
+ViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/ViewController.m
+END
+MainTabBarViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/MainTabBarViewController.m
+END
+TabBarConfig.plist
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/TabBarConfig.plist
+END
+LoginVC.m
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/LoginVC.m
+END
+RootViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/yuti/!svn/ver/408/src/yuti-app/ios/YUYUE/YUYUE/RootViewController.m
+END

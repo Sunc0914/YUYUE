@@ -13,4 +13,39 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <CoreText/CoreText.h>
+
+    #import <Foundation/Foundation.h>
+    #import "LibraryDefine.h"
+    #import "AppWebService.h"
+    #import "NSUserDefaults+Standard.h"
+    #import "ViewDefine.h"
+    #import "UserInfo.h"
+    #import "UINavigationController+PushAnimation.h"
+
+    #import "UserInfo.h"
+    #import "ViewDefine.h"
+#import "NSUserDefaults+Standard.h"
+
 #endif
+
+#define ISIPHONE5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define IS_IOS_7 ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)?YES:NO
+
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+
+#define CLOSE_BIG_VIEW @"CLOSE_BIG_VIEW"
+
+#define umengShareKey @"56442ba6e0f55ae827004bf9"
+
+//#define MAS_SHORTHAND
+
+#define UIDeviceOrientationIsPortrait(orientation)  ((orientation) == UIDeviceOrientationPortrait || (orientation) == UIDeviceOrientationPortraitUpsideDown)
+#define UIDeviceOrientationIsLandscape(orientation) ((orientation) == UIDeviceOrientationLandscapeLeft || (orientation) == UIDeviceOrientationLandscapeRight)
+
+#define tipColor [UIColor colorWithRed:134/255.0 green:134/255.0 blue:134/255.0 alpha:1.0]
+#define userNameColor  [UIColor colorWithRed:61/255.0 green:139/255.0 blue:255/255.0 alpha:1.0]
+#define backGroundColor [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1.0]
+
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self

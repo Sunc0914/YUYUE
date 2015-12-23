@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>首页</string>
+		<key>img_selected</key>
+		<string>icon_first_sel</string>
+		<key>img_nomal</key>
+		<string>icon_first</string>
+		<key>controller</key>
+		<string>HomeVC</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>活动</string>
+		<key>img_selected</key>
+		<string>icon_second_sel</string>
+		<key>img_nomal</key>
+		<string>icon_second</string>
+		<key>controller</key>
+		<string>ActivityVC</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>发现</string>
+		<key>img_selected</key>
+		<string>icon_third_sel</string>
+		<key>img_nomal</key>
+		<string>icon_third</string>
+		<key>controller</key>
+		<string>FindVC</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>我的</string>
+		<key>img_selected</key>
+		<string>icon_forth_sel</string>
+		<key>img_nomal</key>
+		<string>icon_forth</string>
+		<key>controller</key>
+		<string>MyVC</string>
+	</dict>
+</array>
+</plist>

@@ -1,0 +1,103 @@
+//
+//  ActivityCell.m
+//  YUYUE
+//
+//  Created by Sunc on 15/8/12.
+//  Copyright (c) 2015年 Sunc. All rights reserved.
+//
+
+#import "ActivityCell.h"
+
+@implementation ActivityCell
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+    if (self) {
+        
+        _activityImage = [[UIImageView alloc]initWithFrame:CGRectMake(5, 15, 80, 80)];
+        [self addSubview:_activityImage];
+        
+        //第一行
+        CGFloat activityImageX = _activityImage.frame.origin.x+_activityImage.frame.size.width+5;
+        
+        _typeLabel = [[UILabel alloc]initWithFrame:CGRectMake(activityImageX, 15, 30, 20)];
+        _typeLabel.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
+        _typeLabel.adjustsFontSizeToFitWidth = YES;
+        _typeLabel.textColor = [UIColor colorWithRed:144/255.0 green:144/255.0 blue:144/255.0 alpha:1.0];
+        [self addSubview:_typeLabel];
+        
+        CGFloat typeLabelX = _typeLabel.frame.origin.x+_typeLabel.frame.size.width+5;
+        
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(typeLabelX, 15 , SCREEN_WIDTH-typeLabelX-10, 20)];
+        _titleLabel.font = [UIFont systemFontOfSize:14];
+        _titleLabel.textColor = [UIColor blackColor];
+        [self addSubview:_titleLabel];
+        
+        //第二行
+        
+        CGFloat typeLabelY = _typeLabel.frame.origin.y+_typeLabel.frame.size.height+8;
+        
+        UIImageView *placeView = [[UIImageView alloc]initWithFrame:CGRectMake(activityImageX, typeLabelY, 20, 20)];
+        placeView.backgroundColor = [UIColor grayColor];
+        [self addSubview:placeView];
+        
+        CGFloat placeViewX = placeView.frame.origin.x + placeView.frame.size.width+5;
+        
+        _placeLabel = [[UILabel alloc]initWithFrame:CGRectMake(placeViewX, typeLabelY, SCREEN_WIDTH-placeViewX-10, 20)];
+        _placeLabel.textColor = [UIColor colorWithRed:144/255.0 green:144/255.0 blue:144/255.0 alpha:1.0];
+        _placeLabel.font = [UIFont systemFontOfSize:12];
+        [self addSubview:_placeLabel];
+        
+        //第三行
+        
+        CGFloat placeViewY = placeView.frame.origin.y + placeView.frame.size.height+8;
+        
+        UIImageView *timeView = [[UIImageView alloc]initWithFrame:CGRectMake(activityImageX, placeViewY, 20, 20)];
+        timeView.backgroundColor = [UIColor grayColor];
+        [self addSubview:timeView];
+        
+        CGFloat timeViewX = timeView.frame.origin.x + timeView.frame.size.width + 5;
+        
+        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(timeViewX, placeViewY, 100, 20)];
+        _timeLabel.textColor = [UIColor colorWithRed:144/255.0 green:144/255.0 blue:144/255.0 alpha:1.0];
+        _timeLabel.font = [UIFont systemFontOfSize:12];
+        _timeLabel.backgroundColor = [UIColor whiteColor];
+        [self addSubview:_timeLabel];
+        
+        _numOfJoinLabel = [[UILabel alloc]initWithFrame:CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width+5, _timeLabel.frame.origin.y, 80, 20)];
+        _numOfJoinLabel.textColor = [UIColor colorWithRed:246/255.0 green:70/255.0 blue:0/255.0 alpha:1.0];
+        _numOfJoinLabel.font = [UIFont systemFontOfSize:12];
+        [self addSubview:_numOfJoinLabel];
+        
+    }
+    
+    return self;
+}
+
+- (void)setCellDetail:(NSDictionary *)sender{
+    
+    _activityImage.image = [UIImage imageNamed:@"icon_swimming"];
+    
+    _typeLabel.text = [sender objectForKey:@"type"];
+    
+    _timeLabel.text = [sender objectForKey:@"time"];
+    
+    _titleLabel.text = [sender objectForKey:@"title"];
+    
+    _placeLabel.text = [sender objectForKey:@"place"];
+    
+    _numOfJoinLabel.text = [NSString stringWithFormat:@"%@人应约",[sender objectForKey:@"numofjoin"]];
+}
+
+@end

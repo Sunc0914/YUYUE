@@ -1,0 +1,855 @@
+//
+//  CreateActivityVC.m
+//  YUYUE
+//
+//  Created by Sunc on 15/8/12.
+//  Copyright (c) 2015年 Sunc. All rights reserved.
+//
+
+#import "CreateActivityVC.h"
+
+@interface CreateActivityVC ()
+{
+    UIView *inputBackView;
+    
+    NSInteger whichCellEdited;
+    
+    NSIndexPath *whichIndexPath;
+    
+    UIPickerView *otherPicker;
+    
+    UIDatePicker *datePicker;
+    
+    NSMutableArray *pickerDetailArray;
+    
+    UIView *pickerBackView;
+    
+    UIButton *pickerCompleteBtn;
+    
+    UIBarButtonItem *rightBarBtn;
+}
+
+@end
+
+@implementation CreateActivityVC
+@synthesize createActivityTable;
+@synthesize leftBtn;
+@synthesize rightBtn;
+@synthesize titleArray;
+@synthesize singleBtn;
+@synthesize organizasionBtn;
+@synthesize indicator;
+@synthesize activityDetail;
+@synthesize inputTextView;
+@synthesize completeBtn;
+@synthesize sportsArr;
+@synthesize districtArr;
+@synthesize placeArr;
+@synthesize payWayArr;
+@synthesize targetArr;
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.title = @"创建活动";
+    
+    [self initData];
+    
+    [self initSelectBtn];
+    
+    [self initTable];
+    
+}
+
+- (void)initData{
+    
+    titleArray = [[NSArray alloc]initWithObjects:@"",@"项目类别",@"活动地点",@"活动时间",@"活动费用",@"活动对象",@"活动介绍", nil];
+    activityDetail = [[NSMutableArray alloc]initWithObjects:@"活动标题",@"活动项目", @"选择区域",@"选择学校",@"自定义活动地点",@"活动时间",@"AA制",@"平均费用",@"不限",@"注意事项、活动规则",@"联系人姓名",@"联系人手机",nil];
+    
+    sportsArr = [[NSMutableArray alloc]initWithObjects:@"羽毛球",@"乒乓球",@"网球",@"台球",@"游泳",@"健身",@"跑步",@"足球",@"篮球",@"舞蹈",@"瑜伽",@"武术",@"其他", nil];
+    districtArr = [[NSMutableArray alloc]initWithObjects:@"洪山区",@"武昌区",@"江汉区",@"江岸区",@"硚口区",@"汉阳区",@"东西湖区",@"青山区",@"江夏区",@"汉南区",@"黄陂区",@"新洲区",@"蔡甸区",@"其他", nil];
+    placeArr = [[NSMutableArray alloc]initWithObjects:@"华中科技大学",@"武汉大学",@"华中师范大学",@"华中农业大学",@"中国地质大学",@"武汉理工大学",@"中南财经政法大学",@"中南民族大学",@"湖北大学",@"湖北工业大学",@"武汉科技大学",@"武汉纺织大学",@"武汉工程大学",@"武汉体育学院",@"武汉音乐学院",@"湖北经济学院",@"湖北中医药大学",@"武汉轻工大学",@"其他", nil];
+    payWayArr = [[NSMutableArray alloc]initWithObjects:@"AA制",@"主队付",@"客队付",@"胜者付",@"败者付",@"其他", nil];
+    targetArr = [[NSMutableArray alloc]initWithObjects:@"不限",@"男生",@"女生",@"学生", nil];
+    
+    
+    //输入框初始化
+    inputTextView = [[UITextView alloc]initWithFrame:CGRectMake(15, 4, SCREEN_WIDTH-75, 36)];
+    inputTextView.delegate = self;
+    inputTextView.font = [UIFont systemFontOfSize:16];
+    inputTextView.layer.masksToBounds = YES;
+    inputTextView.layer.borderWidth = 1;
+    inputTextView.layer.cornerRadius = 5;
+    inputTextView.layer.borderColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0].CGColor;
+    
+    completeBtn = [[UIButton alloc]initWithFrame:CGRectMake(inputTextView.frame.origin.x+inputTextView.frame.size.width+5, 4, 45, 36)];
+    [completeBtn addTarget:self action:@selector(completeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    completeBtn.layer.masksToBounds = YES;
+    completeBtn.layer.borderWidth = 1;
+    completeBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+    completeBtn.layer.cornerRadius = 5;
+    completeBtn.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+    [completeBtn setTitle:@"完成" forState:UIControlStateNormal];
+    
+    
+    inputBackView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 44)];
+    
+    inputBackView.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+    
+    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+    line.backgroundColor = [UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1.0];
+    
+    [inputBackView addSubview:inputTextView];
+    [inputBackView addSubview:completeBtn];
+    [inputBackView addSubview:line];
+    
+    //
+    whichIndexPath = [[NSIndexPath alloc]init];
+    
+    
+    //初始化picker
+    otherPicker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3)];
+    otherPicker.delegate = self;
+    otherPicker.dataSource = self;
+    otherPicker.backgroundColor = [UIColor whiteColor];
+    
+    datePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3)];
+    [datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_Hans_CN"]];
+    [datePicker setCalendar:[NSCalendar currentCalendar]];
+    [datePicker setDate:[NSDate date]];
+    datePicker.backgroundColor = [UIColor whiteColor];
+    
+    pickerDetailArray = [[NSMutableArray alloc]init];
+    
+    pickerBackView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 44)];
+    pickerBackView.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+    
+    //picker完成btn
+    pickerCompleteBtn = [[UIButton alloc]initWithFrame:CGRectMake(inputTextView.frame.origin.x+inputTextView.frame.size.width+5, 4, 45, 36)];
+    [pickerCompleteBtn addTarget:self action:@selector(completeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    pickerCompleteBtn.layer.masksToBounds = YES;
+    pickerCompleteBtn.layer.borderWidth = 1;
+    pickerCompleteBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+    pickerCompleteBtn.layer.cornerRadius = 5;
+    pickerCompleteBtn.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0];
+    [pickerCompleteBtn setTitle:@"完成" forState:UIControlStateNormal];
+    
+    [pickerBackView addSubview:pickerCompleteBtn];
+    
+    //初始化清空数据
+    rightBarBtn = [[UIBarButtonItem alloc]initWithTitle:@"清空" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarBtnClicked)];
+}
+
+- (void)initSelectBtn{
+    
+     singleBtn = [[UIButton alloc]initWithFrame:CGRectMake(15, 55, SCREEN_WIDTH/2-15, 40)];
+    [singleBtn setTitle:@"个人活动" forState:UIControlStateNormal];
+    [singleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [singleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [singleBtn addTarget:self action:@selector(selectBtnclicked:) forControlEvents:UIControlEventTouchUpInside];
+    singleBtn.selected = YES;
+    singleBtn.backgroundColor = [UIColor clearColor];
+    
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:singleBtn.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerTopLeft cornerRadii:CGSizeMake(5, 5)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = singleBtn.bounds;
+    maskLayer.path = maskPath.CGPath;
+    
+    singleBtn.layer.mask = maskLayer;
+//    singleBtn.layer.borderColor = [UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0].CGColor;
+//    singleBtn.layer.borderWidth = 2;
+    
+    //
+    
+    organizasionBtn  = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2, 55, SCREEN_WIDTH/2-15, 40)];
+    [organizasionBtn setTitle:@"团队活动" forState:UIControlStateNormal];
+    [organizasionBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [organizasionBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [organizasionBtn addTarget:self action:@selector(selectBtnclicked:) forControlEvents:UIControlEventTouchUpInside];
+    organizasionBtn.backgroundColor = [UIColor clearColor];
+    
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:organizasionBtn.bounds byRoundingCorners:UIRectCornerBottomRight | UIRectCornerTopRight cornerRadii:CGSizeMake(5, 5)];
+    maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = organizasionBtn.bounds;
+    maskLayer.path = maskPath.CGPath;
+    
+    organizasionBtn.layer.mask = maskLayer;
+//    organizasionBtn.layer.borderColor = [UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0].CGColor;
+//    organizasionBtn.layer.borderWidth = 2;
+    
+    //
+    
+    indicator = [[UIView alloc]initWithFrame:CGRectMake(15, 55, SCREEN_WIDTH/2-15, 40)];
+    indicator.backgroundColor = [UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0];
+    
+    maskPath = [UIBezierPath bezierPathWithRoundedRect:indicator.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerTopLeft cornerRadii:CGSizeMake(5, 5)];
+    maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = indicator.bounds;
+    maskLayer.path = maskPath.CGPath;
+    indicator.layer.mask = maskLayer;
+}
+
+- (void)initTable{
+    createActivityTable = [[UITableView alloc]initWithFrame:CGRectMake(0, upsideheight-40, SCREEN_WIDTH, SCREEN_HEIGHT-upsideheight+40)];
+    createActivityTable.delegate = self;
+    createActivityTable.dataSource = self;
+    
+    createActivityTable.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+    createActivityTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self.view addSubview:createActivityTable];
+    
+    [self.view addSubview:inputBackView];
+    [self.view addSubview:datePicker];
+    [self.view addSubview:otherPicker];
+    [self.view addSubview:pickerBackView];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [self initKeyboardNotification];
+    
+    
+}
+
+- (void)initKeyboardNotification{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    createActivityTable.userInteractionEnabled = YES;
+    [inputTextView resignFirstResponder];
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        datePicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+        otherPicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+        pickerBackView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 40);
+    }];
+
+}
+
+- (void)didSelectRow:(NSString *)type isPickerView:(BOOL)isPickerView{
+    
+    [inputTextView resignFirstResponder];
+    
+    if (!isPickerView) {
+        
+        //显示通用picker
+        [UIView animateWithDuration:0.2f animations:^{
+            datePicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+            otherPicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+            pickerBackView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 44);
+        }completion:^(BOOL finished) {
+            
+            [UIView animateWithDuration:0.2f animations:^{
+                
+                if (pickerDetailArray.count != 0) {
+                    [pickerDetailArray removeAllObjects];
+                }
+                
+                if ([type isEqualToString:@"sport"]) {
+                    [pickerDetailArray addObjectsFromArray:sportsArr];
+                }
+                else if ([type isEqualToString:@"district"]){
+                    [pickerDetailArray addObjectsFromArray:districtArr];
+                }
+                else if ([type isEqualToString:@"place"]){
+                    [pickerDetailArray addObjectsFromArray:placeArr];
+                }
+                else if ([type isEqualToString:@"pay"])
+                {
+                    [pickerDetailArray addObjectsFromArray:payWayArr];
+                }
+                else if ([type isEqualToString:@"target"]){
+                    [pickerDetailArray addObjectsFromArray:targetArr];
+                }
+                
+                [otherPicker reloadAllComponents];
+                otherPicker.frame = CGRectMake(0, SCREEN_HEIGHT-otherPicker.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+                pickerBackView.frame = CGRectMake(0, SCREEN_HEIGHT-otherPicker.frame.size.height, SCREEN_WIDTH, 44);
+                
+            }];
+        }];
+        
+    }
+    else{
+        //显示时间picker
+        [UIView animateWithDuration:0.2f animations:^{
+            otherPicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+            pickerBackView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 44);
+        }completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.2f animations:^{
+                datePicker.frame = CGRectMake(0, SCREEN_HEIGHT-otherPicker.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+                pickerBackView.frame = CGRectMake(0, SCREEN_HEIGHT-otherPicker.frame.size.height, SCREEN_WIDTH, 44);
+            }];
+        }];
+    }
+    
+    createActivityTable.userInteractionEnabled = YES;
+}
+
+#pragma mark -uitextviewdelegate
+- (void)textViewDidChange:(UITextView *)textView{
+    
+    CGSize constraintSize;
+    
+    constraintSize.width = SCREEN_WIDTH-75;
+    constraintSize.height = 120;
+    CGSize sizeFrame =[textView.text sizeWithFont:[UIFont systemFontOfSize:16] constrainedToSize:constraintSize lineBreakMode:NSLineBreakByWordWrapping];
+    
+    if (sizeFrame.height<36) {
+        inputBackView.frame = CGRectMake(0, inputBackView.frame.origin.y, SCREEN_WIDTH, 36);
+        return;
+    }
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        
+        //输入框增高
+        
+        inputBackView.frame = CGRectMake(0, SCREEN_HEIGHT - _keyboardheight - sizeFrame.height -4-4, SCREEN_WIDTH, sizeFrame.height+8);
+        
+        textView.frame = CGRectMake(15, 4, SCREEN_WIDTH-75, sizeFrame.height);
+        
+        completeBtn.frame = CGRectMake(completeBtn.frame.origin.x, 4, completeBtn.frame.size.width, 36);
+        
+    }];
+    
+    
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([text isEqualToString:@"\n"])
+    {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark -KeyboardNotification
+-(void) keyboardWillShow:(NSNotification *) note
+{
+    NSDictionary* info = [note userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    NSLog(@"hight_hitht:%f",kbSize.height);
+    _keyboardheight = kbSize.height;
+    
+    CGFloat textViewHeight = inputBackView.frame.size.height;
+    
+    datePicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);;
+    otherPicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        
+        //输入框增高
+        
+        inputBackView.frame = CGRectMake(0, SCREEN_HEIGHT - _keyboardheight - textViewHeight, SCREEN_WIDTH, 44);
+        
+        inputTextView.frame = CGRectMake(15, 4, SCREEN_WIDTH - 75, 36);
+        
+        completeBtn.frame = CGRectMake(completeBtn.frame.origin.x, 4, completeBtn.frame.size.width, 36);
+        
+        self.navigationItem.rightBarButtonItem = rightBarBtn;
+        
+    }];
+    
+    createActivityTable.userInteractionEnabled = NO;
+    
+}
+
+-(void) keyboardWillHide:(NSNotification *) note
+{
+    _keyboardheight = 0;
+    
+    createActivityTable.userInteractionEnabled = YES;
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        
+        //输入框增高
+        
+        inputBackView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 44);
+        
+        inputTextView.frame = CGRectMake(15, 4, SCREEN_WIDTH - 75, 36);
+        
+        completeBtn.frame = CGRectMake(completeBtn.frame.origin.x, 4, completeBtn.frame.size.width, 36);
+        
+        self.navigationItem.rightBarButtonItem = nil;
+        
+    }];
+    
+}
+
+#pragma mark -BtnAction
+- (void)selectBtnclicked:(UIButton *)sender{
+    if (sender == organizasionBtn) {
+        //点击右边btn
+        organizasionBtn.selected = YES;
+        singleBtn.selected = NO;
+        
+        [UIView animateWithDuration:0.2f animations:^{
+            
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:singleBtn.bounds byRoundingCorners:UIRectCornerBottomRight | UIRectCornerTopRight cornerRadii:CGSizeMake(5, 5)];
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.frame = singleBtn.bounds;
+            maskLayer.path = maskPath.CGPath;
+            indicator.layer.mask = maskLayer;
+            indicator.frame = CGRectMake(SCREEN_WIDTH/2, 55, SCREEN_WIDTH/2-15, 40);
+        }];
+    }
+    else{
+        //点击左边btn
+        singleBtn.selected = YES;
+        organizasionBtn.selected = NO;
+        
+        [UIView animateWithDuration:0.2f animations:^{
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:singleBtn.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft cornerRadii:CGSizeMake(5, 5)];
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.frame = singleBtn.bounds;
+            maskLayer.path = maskPath.CGPath;
+            indicator.layer.mask = maskLayer;
+            indicator.frame = CGRectMake(15, 55, SCREEN_WIDTH/2-15, 40);
+        }];
+    }
+
+}
+
+- (void)completeBtnClicked:(UIButton *)sender{
+    
+    if (sender == completeBtn) {
+        if (inputTextView.text.length > 0) {
+            [activityDetail replaceObjectAtIndex:whichCellEdited withObject:inputTextView.text];
+            [createActivityTable reloadRowsAtIndexPaths:[NSArray arrayWithObjects:whichIndexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+            [inputTextView resignFirstResponder];
+            inputTextView.text = @"";
+            return;
+        }
+        else{
+            [inputTextView resignFirstResponder];
+        }
+    }
+    else
+    {
+        [UIView animateWithDuration:0.2f animations:^{
+            pickerBackView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+        }];
+        
+        NSString *seleted = [[NSString alloc]init];
+        
+        if (otherPicker.frame.origin.y<SCREEN_HEIGHT) {
+            
+            NSInteger index = [otherPicker selectedRowInComponent:0];
+            
+            seleted = [pickerDetailArray objectAtIndex:index];
+            
+        }
+        else{
+            
+            NSDate *selectedDate = [datePicker date];
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+
+            seleted = [dateFormatter stringFromDate:selectedDate];
+        }
+        
+        [UIView animateWithDuration:0.2f animations:^{
+            datePicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+            otherPicker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/3);
+        }];
+        
+        [activityDetail replaceObjectAtIndex:whichCellEdited withObject:seleted];
+        [createActivityTable reloadRowsAtIndexPaths:[NSArray arrayWithObjects:whichIndexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+        
+        [inputTextView resignFirstResponder];
+    }
+    
+}
+
+- (void)rightBarBtnClicked{
+    
+    inputTextView.text = @"";
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        inputBackView.frame = CGRectMake(0, SCREEN_HEIGHT - _keyboardheight-44, SCREEN_WIDTH, 44);
+        
+        inputTextView.frame = CGRectMake(15, 4, SCREEN_WIDTH - 75, 36);
+        
+        completeBtn.frame = CGRectMake(completeBtn.frame.origin.x, 4, completeBtn.frame.size.width, 36);
+    }];
+
+}
+
+#pragma mark -uitableviewdelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSIndexPath *selected = [tableView indexPathForSelectedRow];
+    if(selected)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    if (indexPath.section == 0) {
+        //活动标题
+        [inputTextView becomeFirstResponder];
+        whichCellEdited = 0;
+        whichIndexPath = indexPath;
+    }
+    else if (indexPath.section == 1)
+    {
+        //项目类别
+        [self didSelectRow:@"sport" isPickerView:NO];
+        whichCellEdited = 1;
+        whichIndexPath = indexPath;
+    }
+    else if (indexPath.section == 2){
+        //活动地点
+        if (indexPath.row == 0) {
+            //区域
+            [self didSelectRow:@"district" isPickerView:NO];
+            whichCellEdited = 2;
+            whichIndexPath = indexPath;
+
+        }
+        else if (indexPath.row == 1)
+        {
+            //学校
+            [self didSelectRow:@"place" isPickerView:NO];
+            whichCellEdited = 3;
+            whichIndexPath = indexPath;
+
+        }
+        else{
+            
+            [inputTextView becomeFirstResponder];
+            whichCellEdited = 4;
+            whichIndexPath = indexPath;
+        }
+    }
+    else if (indexPath.section == 3)
+    {
+        //活动时间
+        whichCellEdited = 5;
+        whichIndexPath = indexPath;
+        
+        [self didSelectRow:@"time" isPickerView:YES];
+    }
+    else if (indexPath.section == 4){
+        //活动费用
+        if (indexPath.row == 0) {
+            
+            [self didSelectRow:@"pay" isPickerView:NO];
+            whichCellEdited = 6;
+            whichIndexPath = indexPath;
+
+        }
+        else if (indexPath.row == 1)
+        {
+            [inputTextView becomeFirstResponder];
+            whichCellEdited = 7;
+            whichIndexPath = indexPath;
+        }
+    }
+    else if (indexPath.section == 5){
+        //活动对象
+        [self didSelectRow:@"target" isPickerView:NO];
+        whichCellEdited = 8;
+        whichIndexPath = indexPath;
+
+    }
+    else if (indexPath.section == 6){
+        //活动介绍
+        if (indexPath.row == 0) {
+            [inputTextView becomeFirstResponder];
+            whichCellEdited = 9;
+            whichIndexPath = indexPath;
+        }
+        else if (indexPath.row == 1){
+            [inputTextView becomeFirstResponder];
+            whichCellEdited = 10;
+            whichIndexPath = indexPath;
+        }
+        else if (indexPath.row == 2){
+            [inputTextView becomeFirstResponder];
+            whichCellEdited = 11;
+            whichIndexPath = indexPath;
+        }
+    }
+    
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    UIView *backview = [[UIView alloc]init];
+    
+    if (section == 0) {
+        backview.frame = CGRectMake(0, 0, SCREEN_WIDTH, 70);
+        
+        UIView *boundView = [[UIView alloc]initWithFrame:CGRectMake(15, 55, SCREEN_WIDTH-30, 40)];
+        boundView.layer.masksToBounds = YES;
+        boundView.layer.borderWidth = 1;
+        boundView.layer.cornerRadius = 5;
+        boundView.layer.borderColor = [UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0].CGColor;
+        
+        [backview addSubview:boundView];
+        
+        [backview addSubview:indicator];
+        
+        [backview addSubview:singleBtn];
+        [backview addSubview:organizasionBtn];
+        
+        backview.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+        
+        return backview;
+    }
+    else{
+        backview.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40);
+        backview.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, SCREEN_WIDTH-15, 40)];
+        titleLabel.text = [titleArray objectAtIndex:section];
+        titleLabel.font = [UIFont systemFontOfSize:14];
+        [backview addSubview:titleLabel];
+        return backview;
+    }
+    return backview;
+}
+
+
+#pragma mark -uitableviewdatasource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger index = section;
+    
+    switch (index) {
+        case 0:
+            //第一行
+            return 1;
+            break;
+        case 1:
+            //项目类别
+            return 1;
+            break;
+        case 2:
+            //活动地点
+            return 3;
+            break;
+        case 3:
+            //活动时间
+            return 1;
+            break;
+        case 4:
+            //活动费用
+            return 2;
+            break;
+        case 5:
+            //活动对象
+            return 1;
+            break;
+        case 6:
+            //活动介绍
+            return 4;
+            break;
+            
+        default:
+            return 0;
+            break;
+    }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 7;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 110;
+    }
+    else
+    {
+        return 40;
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section != 6) {
+        return 40;
+    }
+    else{
+        if (indexPath.row == 3) {
+            return 80;
+        }
+        else
+        {
+            return 40;
+        }
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *CellIdentifier = @"create";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    for (UIView *v in cell.subviews) {
+        [v removeFromSuperview];
+    }
+    
+    cell.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *titlelabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, SCREEN_WIDTH-25, 39)];
+    titlelabel.backgroundColor = [UIColor whiteColor];
+    titlelabel.font = [UIFont systemFontOfSize:14];
+    
+    [cell addSubview:titlelabel];
+    
+    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(15, 39, SCREEN_WIDTH, 1)];
+    line.backgroundColor = [UIColor colorWithRed:225/255.0 green:224/255.0 blue:223/255.0 alpha:1.0];
+    
+    if (indexPath.section == 0) {
+        titlelabel.textColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+        titlelabel.text = [activityDetail objectAtIndex:0];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else if (indexPath.section == 1)
+    {
+        //项目类别
+        titlelabel.textColor = [UIColor blackColor];
+        titlelabel.text = [activityDetail objectAtIndex:1];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else if (indexPath.section == 2)
+    {
+        //活动地点
+        if (indexPath.row == 0) {
+            titlelabel.textColor = [UIColor blackColor];
+            titlelabel.text = [activityDetail objectAtIndex:2];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            [cell addSubview:line];
+        }
+        else if (indexPath.row == 1)
+        {
+            titlelabel.textColor = [UIColor blackColor];
+            titlelabel.text = [activityDetail objectAtIndex:3];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            [cell addSubview:line];
+        }
+        else
+        {
+            titlelabel.textColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+            titlelabel.text = [activityDetail objectAtIndex:4];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    else if (indexPath.section == 3)
+    {
+        //活动时间
+        titlelabel.textColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+        titlelabel.text = [activityDetail objectAtIndex:5];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else if (indexPath.section == 4){
+        //活动费用
+        if (indexPath.row == 0) {
+            titlelabel.textColor = [UIColor blackColor];
+            titlelabel.text = [activityDetail objectAtIndex:6];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            [cell addSubview:line];
+        }
+        else if (indexPath.row == 1)
+        {
+            titlelabel.textColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+            titlelabel.text = [activityDetail objectAtIndex:7];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    else if (indexPath.section == 5)
+    {
+        //活动对象
+        titlelabel.textColor = [UIColor blackColor];
+        titlelabel.text = [activityDetail objectAtIndex:8];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else if (indexPath.section == 6){
+        //活动介绍
+        if (indexPath.row == 0) {
+            titlelabel.textColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+            titlelabel.text = [activityDetail objectAtIndex:9];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [cell addSubview:line];
+        }
+        else if (indexPath.row == 1)
+        {
+            titlelabel.textColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+            titlelabel.text = [activityDetail objectAtIndex:10];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [cell addSubview:line];
+        }
+        else if (indexPath.row == 2){
+            titlelabel.textColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+            titlelabel.text = [activityDetail objectAtIndex:11];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [cell addSubview:line];
+        }
+        else{
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    
+    return cell;
+}
+
+#pragma mark - uipickerviewdatasource
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return pickerDetailArray.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return  [pickerDetailArray objectAtIndex:row];
+}
+
+#pragma mark - uipickerviewdelegate
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

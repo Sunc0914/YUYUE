@@ -1,0 +1,29 @@
+//
+//  ActivityCell.h
+//  YUYUE
+//
+//  Created by Sunc on 15/8/12.
+//  Copyright (c) 2015年 Sunc. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface ActivityCell : UITableViewCell
+
+@property(nonatomic, retain)UIImageView *activityImage;
+
+@property(nonatomic, retain)UILabel *typeLabel;
+
+@property(nonatomic, retain)UILabel *titleLabel;
+
+@property(nonatomic, retain)UILabel *placeLabel;
+
+@property(nonatomic, retain)UILabel *timeLabel;
+
+@property(nonatomic, retain)UILabel *numOfJoinLabel;
+
+@property(nonatomic, retain)UIView *line;
+
+- (void)setCellDetail:(NSDictionary *)sender;
+
+@end

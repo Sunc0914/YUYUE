@@ -1,0 +1,393 @@
+//
+//  ActivityVC.m
+//  YUYUE
+//
+//  Created by Sunc on 15/8/10.
+//  Copyright (c) 2015年 Sunc. All rights reserved.
+//
+
+#import "ActivityVC.h"
+#import "ActivityCell.h"
+#import "CreateActivityVC.h"
+#import "ActivityDetailVC.h"
+#import "JoinActivityVC.h"
+
+@interface ActivityVC ()
+
+@end
+
+@implementation ActivityVC
+@synthesize activityTable;
+@synthesize activityScrollview;
+@synthesize deadlineActivityArray;
+@synthesize specialActivityArray;
+@synthesize detailLeftBtn;
+@synthesize detailRightBtn;
+@synthesize indicator;
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self initDetailBtn];
+    
+    [self initScrollview];
+    
+    [self initData];
+    
+    [self getData];
+    
+}
+
+- (void)initDetailBtn{
+    
+    detailLeftBtn  = [[UIButton alloc]initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH/2, 50)];
+    [detailLeftBtn setTitle:@"精华活动" forState:UIControlStateNormal];
+    [detailLeftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [detailLeftBtn setTitleColor:[UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0] forState:UIControlStateSelected];
+    detailLeftBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [detailLeftBtn addTarget:self action:@selector(detailBtnclicked:) forControlEvents:UIControlEventTouchUpInside];
+    detailLeftBtn.selected = YES;
+    
+    detailRightBtn  = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2, 10, SCREEN_WIDTH/2, 50)];
+    [detailRightBtn setTitle:@"即将结束" forState:UIControlStateNormal];
+    [detailRightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [detailRightBtn setTitleColor:[UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0] forState:UIControlStateSelected];
+    detailRightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [detailRightBtn addTarget:self action:@selector(detailBtnclicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    indicator = [[UIView alloc]initWithFrame:CGRectMake(15, 58, SCREEN_WIDTH/2-30, 2)];
+    indicator.backgroundColor = [UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0];
+    
+}
+
+- (void)initData{
+    specialActivityArray = [[NSMutableArray alloc]init];
+    deadlineActivityArray = [[NSMutableArray alloc]init];
+    
+    NSDictionary *dic1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"团体",@"type",@"游泳",@"title",@"华中科技大学",@"place",@"2015-08-31 10:30",@"time",@"2",@"numofjoin", nil];
+    
+    NSDictionary *dic2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"个人",@"type",@"游泳",@"title",@"华中农业大学",@"place",@"2015-09-31 10:45",@"time",@"1",@"numofjoin", nil];
+    
+    NSDictionary *dic3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"个人",@"type",@"游泳",@"title",@"武汉体院",@"place",@"2015-10-31 17:30",@"time",@"0",@"numofjoin", nil];
+    
+    [specialActivityArray addObject:dic1];
+    [specialActivityArray addObject:dic2];
+    [specialActivityArray addObject:dic3];
+    
+    [deadlineActivityArray addObject:dic1];
+    [deadlineActivityArray addObject:dic2];
+    
+    NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:3];
+    
+    [activityTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)getData{
+    
+}
+
+- (void)initScrollview{
+    
+    activityTable = [[UITableView alloc]initWithFrame:CGRectMake(0, upsideheight, SCREEN_WIDTH, SCREEN_HEIGHT-upsideheight-49)];
+    activityTable.delegate = self;
+    activityTable.dataSource = self;
+    activityTable.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+    
+    [activityTable setTableFooterView:[[UIView alloc]initWithFrame:CGRectZero]];
+    
+    [activityTable reloadData];
+    
+    [self.view addSubview:activityTable];
+    
+}
+
+- (void)btnclicked:(UIButton *)sender{
+    //
+}
+
+- (void)centerbtnclicked:(UIButton *)sender{
+    
+    if ([sender.titleLabel.text isEqualToString:@"发起活动"] ) {
+        CreateActivityVC *create = [[CreateActivityVC alloc]init];
+        create.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:create animated:YES];
+    }
+    else{
+        JoinActivityVC *join = [[JoinActivityVC alloc]init];
+        join.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:join animated:YES];
+    }
+    
+}
+
+- (void)detailBtnclicked:(UIButton *)sender{
+    
+    if (sender == detailRightBtn) {
+        //点击右边btn
+        detailRightBtn.selected = YES;
+        detailLeftBtn.selected = NO;
+        
+        [UIView animateWithDuration:0.5f animations:^{
+            indicator.frame = CGRectMake(15+SCREEN_WIDTH/2, 58, SCREEN_WIDTH/2-30, 2);
+        }];
+        
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:3];
+        
+        [activityTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+    }
+    else{
+        //点击左边btn
+        detailLeftBtn.selected = YES;
+        detailRightBtn.selected = NO;
+        
+        [UIView animateWithDuration:0.5f animations:^{
+            indicator.frame = CGRectMake(15, 58, SCREEN_WIDTH/2-30, 2);
+        }];
+        
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:3];
+        
+        [activityTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+#pragma mark - uitableviewdelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSIndexPath *selected = [tableView indexPathForSelectedRow];
+    
+    if(selected)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    ActivityDetailVC *activityDetail = [[ActivityDetailVC alloc]init];
+    activityDetail.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:activityDetail animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return 100+10;
+    }
+    else if (section == 1){
+        return 70+10;
+    }
+    else if (section == 2){
+        return 50+10;
+    }
+    else{
+        return 0;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 3) {
+        return 110;
+    }
+    else{
+        return 0;
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    if (section == 0) {
+        
+        //第一个c展示活动
+        
+        UIView *headerview = [[UIView alloc]init];
+        headerview.backgroundColor = [UIColor whiteColor];
+        
+        headerview.frame = CGRectMake(0, 0, SCREEN_WIDTH, 110);
+        
+        UIScrollView *horizonBackview = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 100)];
+        horizonBackview.backgroundColor = [UIColor whiteColor];
+        horizonBackview.showsHorizontalScrollIndicator = YES;
+        horizonBackview.scrollEnabled = YES;
+        
+        [headerview addSubview:horizonBackview];
+        
+        horizonBackview.pagingEnabled = YES;
+        
+        int gaplength = SCREEN_WIDTH/4;
+        int distance = gaplength/10;
+        
+        NSArray *titleArray = [[NSArray alloc]initWithObjects:@"发起运动", @"参与运动",@"发布技能",@"运动优惠",@"更多",nil];
+        NSArray *imageArray = [[NSArray alloc]initWithObjects:@"icon_create",@"icon_join",@"icon_publish",@"icon_discount",@"icon_more",nil];
+        
+        for (int i = 0; i<titleArray.count; i++) {
+            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(distance + gaplength*i, 5, gaplength/10*8, gaplength/10*8)];
+            btn.tag = i;
+            [btn addTarget:self action:@selector(btnclicked:) forControlEvents:UIControlEventTouchUpOutside];
+            btn.layer.masksToBounds = YES;
+            btn.layer.cornerRadius = btn.frame.size.height/2;
+            [btn setBackgroundImage:[UIImage imageNamed:[imageArray objectAtIndex:i]] forState:UIControlStateNormal];
+            
+            UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(distance +gaplength*i, btn.frame.origin.y+btn.frame.size.height, gaplength/10*8, 30)];
+            titleLabel.text = [titleArray objectAtIndex:i];
+            titleLabel.textAlignment = NSTextAlignmentCenter;
+            titleLabel.font = [UIFont systemFontOfSize:12];
+            titleLabel.adjustsFontSizeToFitWidth = YES;
+            
+            [horizonBackview addSubview:btn];
+            [horizonBackview addSubview:titleLabel];
+        }
+        
+        horizonBackview.contentSize = CGSizeMake(gaplength*titleArray.count, 100);
+        
+        UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
+        line.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+        
+        [headerview addSubview:line];
+        
+        return headerview;
+
+    }
+    else if (section == 1){
+        
+        //
+        
+        UIView *headerview = [[UIView alloc]init];
+        headerview.backgroundColor = [UIColor whiteColor];
+        
+        headerview.frame = CGRectMake(0, 0, SCREEN_WIDTH, 80);
+        
+        UIButton *leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, (SCREEN_WIDTH-20)/2, 40)];
+        leftBtn.layer.masksToBounds = YES;
+        leftBtn.layer.cornerRadius = 5;
+        [leftBtn setTitle:@"发起活动" forState:UIControlStateNormal];
+        leftBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [leftBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        leftBtn.backgroundColor = [UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0];
+        [leftBtn addTarget:self action:@selector(centerbtnclicked:) forControlEvents:UIControlEventTouchUpInside];
+        [headerview addSubview:leftBtn];
+        
+        UIButton *rightBtn = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-20)/2+15, 25, (SCREEN_WIDTH-20)/2, 40)];
+        rightBtn.layer.masksToBounds = YES;
+        rightBtn.layer.cornerRadius = 5;
+        [rightBtn setTitle:@"参与活动" forState:UIControlStateNormal];
+        rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        rightBtn.backgroundColor = [UIColor colorWithRed:41/255.0 green:152/255.0 blue:230/255.0 alpha:1.0];
+        [rightBtn addTarget:self action:@selector(centerbtnclicked:) forControlEvents:UIControlEventTouchUpInside];
+        [headerview addSubview:rightBtn];
+        
+        UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
+        line.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+        
+        [headerview addSubview:line];
+        
+        return headerview;
+    }
+    else if (section == 2){
+        
+        UIView *headerview = [[UIView alloc]init];
+        headerview.backgroundColor = [UIColor whiteColor];
+        
+        headerview.frame = CGRectMake(0, 0, SCREEN_WIDTH, 60);
+        
+        headerview.backgroundColor = [UIColor whiteColor];
+
+        [headerview addSubview:detailLeftBtn];
+
+        [headerview addSubview:detailRightBtn];
+        
+        [headerview addSubview:indicator];
+        
+        UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
+        line.backgroundColor = [UIColor colorWithRed:229/255.0 green:228/255.0 blue:225/255.0 alpha:1.0];
+        
+        [headerview addSubview:line];
+        
+        return headerview;
+        
+    }
+    else
+    {
+        return nil;
+    }
+    
+}
+
+
+#pragma mark - uitableviewdatasource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    if (section == 0) {
+        return 0;
+    }
+    else if (section == 1){
+        return 0;
+    }
+    else if (section == 2){
+        return 0;
+    }
+    else if (section == 3){
+        if (detailLeftBtn.selected) {
+            return specialActivityArray.count;
+        }
+        else
+        {
+            return deadlineActivityArray.count;
+        }
+    }
+    
+    return 0;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 4;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section!=3) {
+        return nil;
+    }
+    
+    static NSString *CellIdentifier = @"activity";
+    ActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[ActivityCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;//箭头
+    }
+    
+    NSDictionary *cellDataDic = [[NSDictionary alloc]init];
+    
+    if (detailLeftBtn.selected) {
+        cellDataDic = [specialActivityArray objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        cellDataDic = [deadlineActivityArray objectAtIndex:indexPath.row];
+    }
+    
+    [cell setCellDetail:cellDataDic];
+
+    return cell;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

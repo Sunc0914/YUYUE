@@ -1,0 +1,184 @@
+//
+//  JoinActivityVC.m
+//  YUYUE
+//
+//  Created by Sunc on 15/8/30.
+//  Copyright (c) 2015年 Sunc. All rights reserved.
+//
+
+#import "JoinActivityVC.h"
+#import "ActivityCell.h"
+#import "DOPDropDownMenu.h"
+#import "ActivityDetailVC.h"
+#import "DropDownListView.h"
+
+@interface JoinActivityVC ()<DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
+{
+    NSMutableArray *joinDetailArr;
+    
+    NSMutableArray *arr1;
+    NSMutableArray *arr2;
+    NSMutableArray *arr3;
+    NSMutableArray *arr4;
+    
+    UITableView *joinTable;
+    
+    NSMutableArray *chooseArray;
+}
+
+@end
+
+@implementation JoinActivityVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
+    
+    [self initData];
+    
+    [self initTable];
+}
+
+- (void)initData{
+    arr1 = [[NSMutableArray alloc]initWithObjects:@"全部地区",@"洪山区",@"武昌区",@"江汉区",@"江岸区",@"硚口区",@"汉阳区",@"东西湖区",@"青山区",@"江夏区",@"汉南区",@"黄陂区",@"新洲区",@"蔡甸区",@"其他", nil];
+    
+    arr2 = [[NSMutableArray alloc]initWithObjects:@"全部项目",@"羽毛球",@"乒乓球",@"网球",@"台球",@"游泳",@"健身",@"跑步",@"足球",@"篮球",@"舞蹈",@"瑜伽",@"武术",@"其他", nil];
+    
+    arr3 = [[NSMutableArray alloc]initWithObjects:@"全部类型",@"个人活动",@"团队活动", nil];
+    
+    arr4 = [[NSMutableArray alloc]initWithObjects:@"默认排序",@"评价最好",@"人气最高", nil];
+    
+    NSDictionary *dic1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"团体",@"type",@"游泳",@"title",@"华中科技大学",@"place",@"2015-08-31 10:30",@"time",@"2",@"numofjoin", nil];
+    
+    NSDictionary *dic2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"个人",@"type",@"游泳",@"title",@"华中农业大学",@"place",@"2015-09-31 10:45",@"time",@"1",@"numofjoin", nil];
+    
+    NSDictionary *dic3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"个人",@"type",@"游泳",@"title",@"武汉体院",@"place",@"2015-10-31 17:30",@"time",@"0",@"numofjoin", nil];
+    
+    joinDetailArr = [[NSMutableArray alloc]initWithObjects:dic1,dic2,dic3, nil];
+}
+
+- (void)initTable{
+    
+    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 45) andHeight:40];
+    menu.dataSource = self;
+    menu.delegate = self;
+  
+    joinTable = [[UITableView alloc]initWithFrame:CGRectMake(0, upsideheight, SCREEN_WIDTH, SCREEN_HEIGHT-upsideheight)];
+    joinTable.delegate = self;
+    joinTable.dataSource = self;
+    [joinTable setTableFooterView:[[UIView alloc]initWithFrame:CGRectZero]];
+    joinTable.backgroundColor = [UIColor clearColor];
+    
+//    [joinTable setTableHeaderView:menu];
+    
+    chooseArray = [NSMutableArray arrayWithArray:@[
+                                                   @[@"全部地区",@"洪山区",@"武昌区",@"江汉区",@"江岸区",@"硚口区",@"汉阳区",@"东西湖区",@"青山区",@"江夏区",@"汉南区",@"黄陂区",@"新洲区",@"蔡甸区",@"其他"],
+                                                   @[@"全部项目",@"羽毛球",@"乒乓球",@"网球",@"台球",@"游泳",@"健身",@"跑步",@"足球",@"篮球",@"舞蹈",@"瑜伽",@"武术",@"其他"],
+                                                   @[@"全部类型",@"个人活动",@"团队活动"],
+                                                   @[@"默认排序",@"评价最好",@"人气最高"]
+                                                   ]];
+    
+    DropDownListView * dropDownView = [[DropDownListView alloc] initWithFrame:CGRectMake(0,45, SCREEN_WIDTH, 40) dataSource:self delegate:self];
+    dropDownView.mSuperView = joinTable;
+    [joinTable setTableHeaderView:dropDownView];
+    
+    [self.view addSubview:joinTable];
+}
+
+#pragma mark -- dropDownListDelegate
+- (void) chooseAtSection:(NSInteger)section index:(NSInteger)index
+{
+    NSLog(@"孙大圣选了section:%ld ,index:%ld",(long)section,(long)index);
+}
+
+//- (void) tableviewShouldEnableScroll:(BOOL)enableScroll{
+//
+//    gymTable.scrollEnabled = enableScroll;
+//}
+
+#pragma mark -- dropdownList DataSource
+-(NSInteger)numberOfSections
+{
+    return [chooseArray count];
+}
+-(NSInteger)numberOfRowsInSection:(NSInteger)section
+{
+    NSArray *arry =chooseArray[section];
+    return [arry count];
+}
+-(NSString *)titleInSection:(NSInteger)section index:(NSInteger) index
+{
+    return chooseArray[section][index];
+}
+-(NSInteger)defaultShowSection:(NSInteger)section
+{
+    return 0;
+}
+
+
+#pragma mark- uitableviewdatasource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return joinDetailArr.count;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 110;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *CellIdentifier = @"join";
+    ActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[ActivityCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;//箭头
+    }
+    
+    NSDictionary *cellDataDic = [[NSDictionary alloc]init];
+    
+    cellDataDic = [joinDetailArr objectAtIndex:indexPath.row];
+    
+    [cell setCellDetail:cellDataDic];
+    
+    return cell;
+}
+
+
+#pragma mark- uitableviewdelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSIndexPath *selected = [tableView indexPathForSelectedRow];
+    
+    if(selected)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
+    ActivityDetailVC *activityDetail = [[ActivityDetailVC alloc]init];
+    activityDetail.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:activityDetail animated:YES];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end
