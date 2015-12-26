@@ -17,6 +17,8 @@
 @property (nonatomic, retain)UITableView *myMotionTable;
 @property (nonatomic, retain)NSArray *mySubActiviyArr;
 @property (nonatomic, retain)NSArray *myActivityArr;
+@property (nonatomic, assign)BOOL sectionOneUp;
+@property (nonatomic, assign)BOOL sectionTwoUp;
 
 @end
 
@@ -99,6 +101,40 @@
     [self.navigationController pushViewController:activityDetail animated:YES];
 }
 
+- (void)tapBtnClicked:(UIButton *)sender{
+    UIImageView *temImgView;
+    UIView *superView = [sender superview];
+    for (UIView *v in superView.subviews) {
+        if ([v isKindOfClass:[UIImageView class]]) {
+            temImgView = (UIImageView *)v;
+        }
+    }
+    if (sender.tag == 0) {
+        if (_sectionOneUp) {
+            _sectionOneUp = NO;
+            temImgView.image = [UIImage imageNamed:@"option_arrow_down.png"];
+        }
+        else
+        {
+            _sectionOneUp = YES;
+            temImgView.image = [UIImage imageNamed:@"option_arrow_up.png"];
+        }
+    }
+    else{
+        if (_sectionTwoUp) {
+            _sectionTwoUp = NO;
+            temImgView.image = [UIImage imageNamed:@"option_arrow_down.png"];
+        }
+        else
+        {
+            _sectionTwoUp = YES;
+            temImgView.image = [UIImage imageNamed:@"option_arrow_up.png"];
+        }
+    }
+    
+    [_myMotionTable reloadData];
+}
+
 #pragma mark -tableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -106,9 +142,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
+        if (_sectionOneUp) {
+            return 0;
+        }
         return _myActivityArr.count;
     }
     else if (section == 1){
+        if (_sectionTwoUp) {
+            return 0;
+        }
         return _mySubActiviyArr.count;
     }
     
@@ -167,23 +209,72 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 30;
+    return 40;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
     backView.backgroundColor = backGroundColor;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-20, 30)];
+    
+    UILabel *label = [UILabel new];
+    UIImageView *optionImgView = [UIImageView new];
+    UIButton *tapBtn = [UIButton new];
+    UIView *line = [UIView new];
+    [backView addSubview:label];
+    [backView addSubview:optionImgView];
+    [backView addSubview:tapBtn];
+    [backView addSubview:line];
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(backView);
+        make.left.equalTo(backView).offset(10);
+        make.right.equalTo(optionImgView.mas_left).offset(-10);
+    }];
+    [optionImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(label);
+        make.height.equalTo(backView).multipliedBy(1/4.0);
+        make.width.equalTo(optionImgView.mas_height).multipliedBy(22/12.0);
+        make.right.equalTo(backView).offset(-10);
+    }];
+    [tapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(backView);
+    }];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(0.5);
+        make.bottom.left.right.equalTo(backView);
+    }];
+    
+    line.backgroundColor = [UIColor lightGrayColor];
     label.font = [UIFont systemFontOfSize:12];
     label.textColor = tipColor;
     label.adjustsFontSizeToFitWidth = YES;
+    if (section == 0) {
+        if (_sectionOneUp) {
+            optionImgView.image = [UIImage imageNamed:@"option_arrow_up.png"];
+        }
+        else{
+            optionImgView.image = [UIImage imageNamed:@"option_arrow_down.png"];
+        }
+    }
+    else{
+        if (_sectionTwoUp) {
+            optionImgView.image = [UIImage imageNamed:@"option_arrow_up.png"];
+        }
+        else{
+            optionImgView.image = [UIImage imageNamed:@"option_arrow_down.png"];
+        }
+    }
+    
+    tapBtn.tag = section;
+    [tapBtn addTarget:self action:@selector(tapBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
     if (section == 0) {
         label.text = @"我发起的活动";
     }
     else{
         label.text = @"我参与的活动";
     }
-    [backView addSubview:label];
+    
     return backView;
 }
 

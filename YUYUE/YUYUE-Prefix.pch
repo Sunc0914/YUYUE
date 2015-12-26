@@ -48,4 +48,5 @@
 #define userNameColor  [UIColor colorWithRed:61/255.0 green:139/255.0 blue:255/255.0 alpha:1.0]
 #define backGroundColor [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1.0]
 
+//#define M_PI     3.14159265358979323846264338327950288
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self

@@ -84,7 +84,7 @@
                   moduleName = "YUYUE"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sunc/Desktop/YUYUE/YUYUE/Library/Service/AppWebService.m"
-                  timestampString = "472381744.764146"
+                  timestampString = "472787316.727393"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "480"
@@ -99,7 +99,7 @@
                   moduleName = "YUYUE"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sunc/Desktop/YUYUE/YUYUE/Library/Service/AppWebService.m"
-                  timestampString = "472381744.76444"
+                  timestampString = "472787316.727568"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "480"
@@ -212,7 +212,7 @@
                   moduleName = "YUYUE"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sunc/Desktop/YUYUE/YUYUE/Library/Service/AppWebService.m"
-                  timestampString = "472381744.76837"
+                  timestampString = "472787316.730418"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "167"
@@ -227,7 +227,7 @@
                   moduleName = "YUYUE"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sunc/Desktop/YUYUE/YUYUE/Library/Service/AppWebService.m"
-                  timestampString = "472381744.768644"
+                  timestampString = "472787316.730621"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "167"
@@ -260,7 +260,7 @@
                   moduleName = "YUYUE"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sunc/Desktop/YUYUE/YUYUE/Library/Service/AppWebService.m"
-                  timestampString = "472381744.770097"
+                  timestampString = "472787316.732072"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1148"
@@ -275,7 +275,7 @@
                   moduleName = "YUYUE"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sunc/Desktop/YUYUE/YUYUE/Library/Service/AppWebService.m"
-                  timestampString = "472381744.77036"
+                  timestampString = "472787316.732302"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1148"
@@ -283,6 +283,22 @@
                   offsetFromSymbolStart = "88">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YUYUE/Setting/SubListVC.m"
+            timestampString = "472782925.988797"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "-userImgBtnClicked:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

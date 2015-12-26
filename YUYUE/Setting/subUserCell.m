@@ -41,8 +41,8 @@
 
 - (void)initCell{
     WS(ws);
-    _userImgBtn = [UIButton new];
-    _userImgBtn.userInteractionEnabled = NO;
+    _userImgBtn = [[UIButton alloc]init];
+    _userImgBtn.userInteractionEnabled = YES;
     [self addSubview:_userImgBtn];
     [_userImgBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(ws).offset(5);
@@ -93,6 +93,7 @@
     _userImgBtn.layer.cornerRadius = _userImgBtn.bounds.size.height/2.0;
     _userImgBtn.layer.shouldRasterize = YES;
     _userImgBtn.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    [_userImgBtn addTarget:self action:@selector(userImgBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)userImgBtnClicked:(UIButton *)sender{
@@ -114,7 +115,7 @@
 - (void)setCellContent{
     WS(ws);
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.yuti.cc/app/user/photo/%@",_userID]];
-    [_userImgBtn sd_setBackgroundImageWithURL:url forState:UIControlStateNormal];
+    [_userImgBtn sd_setBackgroundImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"userDefulat.png"]];
     if (userInfoDic) {
         signLabel.text = [userInfoDic objectForKey:@"introduction"];
         userNameLabel.text = [userInfoDic objectForKey:@"nickName"];

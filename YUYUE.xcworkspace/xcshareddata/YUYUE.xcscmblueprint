@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "9B354A25F1B1BAB689F6F1F14A1D953AABD0BC91",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9B354A25F1B1BAB689F6F1F14A1D953AABD0BC91" : 0,
+    "95E6B7147F4058EA1C831069F43B479A01C11FC5" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "40B1FBE0-58E2-4245-B03A-EA78C0BAB296",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9B354A25F1B1BAB689F6F1F14A1D953AABD0BC91" : "YUYUE\/",
+    "95E6B7147F4058EA1C831069F43B479A01C11FC5" : "YUYUE\/YUYUE\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "YUYUE",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "YUYUE.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/MonkeyS914\/YuYue.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "95E6B7147F4058EA1C831069F43B479A01C11FC5"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Sunc0914\/YUYUE.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9B354A25F1B1BAB689F6F1F14A1D953AABD0BC91"
+    }
+  ]
+}

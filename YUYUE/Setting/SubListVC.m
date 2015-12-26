@@ -60,12 +60,12 @@
     _subListTable.dataSource = self;
 }
 
-//- (void)userImgBtnClicked:(UIButton *)sender{
-//    UserInfoVC *userInfoVc = [[UserInfoVC alloc]init];
-//    NSDictionary *temDic = [NSDictionary dictionaryWithDictionary:[_subUserArr objectAtIndex:sender.tag]];
-//    userInfoVc.userID = [temDic objectForKey:@"userId"];
-//    [self.navigationController pushViewController:userInfoVc animated:YES];
-//}
+- (void)userImgBtnClicked:(UIButton *)sender{
+    UserInfoVC *userInfoVc = [[UserInfoVC alloc]init];
+    NSDictionary *temDic = [NSDictionary dictionaryWithDictionary:[_subUserArr objectAtIndex:sender.tag]];
+    userInfoVc.userID = [temDic objectForKey:@"userId"];
+    [self.navigationController pushViewController:userInfoVc animated:YES];
+}
 
 #pragma mark -uitableViewDelegate
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -145,8 +145,6 @@
     NSDictionary *temDic = [NSDictionary dictionaryWithDictionary:[_subUserArr objectAtIndex:indexPath.row]];
     cell.userID = [temDic objectForKey:@"userId"];
     [cell getCellContent];
-//    [cell.userImgBtn addTarget:self action:@selector(userImgBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    cell.userImgBtn.tag = indexPath.row;
     return cell;
 }
 
