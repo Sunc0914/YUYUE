@@ -145,7 +145,7 @@
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.yuti.cc/app/user/photo/%@",[praiseUsers objectAtIndex:indexPath.row+temi]]];
-    [cell.imgView sd_setImageWithURL:url placeholderImage:nil];
+    [cell.imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"userDefulat.png"]];
     
     cell.backgroundColor = [UIColor whiteColor];
     return cell;

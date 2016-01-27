@@ -535,6 +535,7 @@
 		A5A7BE5F1C1F9B9300383D23 /* male@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5A7BE5B1C1F9B9300383D23 /* male@2x.png */; };
 		A5A7BE601C1F9B9300383D23 /* male@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5A7BE5C1C1F9B9300383D23 /* male@3x.png */; };
 		A5A9C55B1BF719F100835C6C /* RichLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A9C55A1BF719F100835C6C /* RichLabel.m */; };
+		A5B3CD151C2FF3CF00993318 /* PublishActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B3CD141C2FF3CF00993318 /* PublishActivityVC.m */; };
 		A5B7B39B1BDE4CD000F0C9F1 /* StoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B7B39A1BDE4CD000F0C9F1 /* StoryVC.m */; };
 		A5B7B39E1BDE500B00F0C9F1 /* StoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B7B39D1BDE500B00F0C9F1 /* StoryCollectionViewCell.m */; };
 		A5B81C671B9290E400EDE4D5 /* JoinActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B81C661B9290E400EDE4D5 /* JoinActivityVC.m */; };
@@ -1348,6 +1349,8 @@
 		A5A7BE5C1C1F9B9300383D23 /* male@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "male@3x.png"; sourceTree = "<group>"; };
 		A5A9C5591BF719F100835C6C /* RichLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichLabel.h; sourceTree = "<group>"; };
 		A5A9C55A1BF719F100835C6C /* RichLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichLabel.m; sourceTree = "<group>"; };
+		A5B3CD131C2FF3CF00993318 /* PublishActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishActivityVC.h; sourceTree = "<group>"; };
+		A5B3CD141C2FF3CF00993318 /* PublishActivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishActivityVC.m; sourceTree = "<group>"; };
 		A5B7B3991BDE4CD000F0C9F1 /* StoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryVC.h; sourceTree = "<group>"; };
 		A5B7B39A1BDE4CD000F0C9F1 /* StoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryVC.m; sourceTree = "<group>"; };
 		A5B7B39C1BDE500B00F0C9F1 /* StoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryCollectionViewCell.h; sourceTree = "<group>"; };
@@ -2769,6 +2772,15 @@
 			path = category;
 			sourceTree = "<group>";
 		};
+		A5B3CD121C2FF38900993318 /* createActivity */ = {
+			isa = PBXGroup;
+			children = (
+				A5B3CD131C2FF3CF00993318 /* PublishActivityVC.h */,
+				A5B3CD141C2FF3CF00993318 /* PublishActivityVC.m */,
+			);
+			name = createActivity;
+			sourceTree = "<group>";
+		};
 		A5C2AFC01B78B5E300EB2FDD = {
 			isa = PBXGroup;
 			children = (
@@ -2873,6 +2885,7 @@
 				A5D497741BF9645900F138CA /* view */,
 				A517E8611C11513B006157A1 /* activityVC */,
 				A517E8621C11516B006157A1 /* activityDetailVC */,
+				A5B3CD121C2FF38900993318 /* createActivity */,
 				A5D04B911B8BF3440030C010 /* ActivityDetailVC.h */,
 				A5D04B921B8BF3440030C010 /* ActivityDetailVC.m */,
 				A59776251BC68CBB00785158 /* UserListVC.h */,
@@ -3645,6 +3658,7 @@
 				A588585B1C15CDA800B7D891 /* YYTextMagnifier.m in Sources */,
 				A58635591BF7260D00E11DDD /* UserInfo.m in Sources */,
 				A59776241BC67C3400785158 /* JoinDetailVC.m in Sources */,
+				A5B3CD151C2FF3CF00993318 /* PublishActivityVC.m in Sources */,
 				A517E8241C1140FB006157A1 /* UIDevice+YYAdd.m in Sources */,
 				A58634DB1BF7260D00E11DDD /* MJRefreshHeader.m in Sources */,
 				A586359E1BF7271A00E11DDD /* TYTextStorage.m in Sources */,

@@ -14,6 +14,7 @@
 #import "JoinActivityVC.h"
 #import "MJRefreshNormalHeader.h"
 #import "ActivityCollectionViewCell.h"
+#import "PublishActivityVC.h"
 
 @interface ActivityVC ()<refreshActivity,UICollectionViewDataSource,UICollectionViewDelegate,UITabBarControllerDelegate>
 {
@@ -129,6 +130,10 @@
     maskLayer.frame = indicator.bounds;
     maskLayer.path = maskPath.CGPath;
     indicator.layer.mask = maskLayer;
+    
+}
+
+- (void)refreshData{
     
 }
 
@@ -250,10 +255,12 @@
     
     if (sender.tag == 10086) {
         if ([self isLogin]) {
-            CreateActivityVC *create = [[CreateActivityVC alloc]init];\
-            create.delegate = self;
-            create.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:create animated:YES];
+//            CreateActivityVC *create = [[CreateActivityVC alloc]init];
+//            create.delegate = self;
+//            create.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:create animated:YES];
+            PublishActivityVC *publish = [[PublishActivityVC alloc]init];
+            [self.navigationController pushViewController:publish animated:YES];
         }
     }
     else{
